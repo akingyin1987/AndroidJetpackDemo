@@ -46,7 +46,7 @@ dependencies {
     implementation "com.google.android.material:material:$rootProject.materialVersion"
     implementation "com.google.code.gson:gson:$rootProject.gsonVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$rootProject.kotlinVersion"
-
+    implementation 'com.blankj:utilcode:1.22.0'
     // Testing dependencies
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.coreTestingVersion"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"

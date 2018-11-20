@@ -2,13 +2,12 @@ package com.akingyin.androidjetpackdemo.ui.main
 
 
 import android.os.Bundle
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.akingyin.androidjetpackdemo.R
+import com.akingyin.androidjetpackdemo.databinding.MainTestFragmentBinding
 
 class MainFragment : Fragment() {
 
@@ -21,13 +20,20 @@ class MainFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
 
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        val binding = MainTestFragmentBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+
+        binding.user = viewModel.user
+        binding.clickListener=viewModel
+
+        return binding.root
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        // TODO: Use the ViewModel
+
+
 
     }
 
