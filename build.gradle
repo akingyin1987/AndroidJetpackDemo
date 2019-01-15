@@ -10,7 +10,7 @@ buildscript {
 
         // App dependencies
 
-        constraintLayoutVersion = '2.0.0-alpha2'
+        constraintLayoutVersion = '2.0.0-alpha3'
         coreTestingVersion = '2.0.0'
         espressoVersion = '3.1.0-alpha4'
         glideVersion = '4.8.0'
@@ -23,9 +23,9 @@ buildscript {
         legacySupportVersion = '1.0.0'
         lifecycleVersion = '2.0.0'
         materialVersion = '1.0.0'
-        navigationVersion = '1.0.0-alpha07'
+        navigationVersion = '1.0.0-alpha09'
         recyclerViewVersion = '1.0.0'
-        roomVersion = '2.1.0-alpha02'
+        roomVersion = '2.1.0-alpha03'
         runnerVersion = '1.0.1'
         supportLibraryVersion = '1.0.2'
         uiAutomatorVersion = '2.2.0-alpha4'
@@ -38,6 +38,7 @@ buildscript {
         google()
         jcenter()
         maven { url 'http://dl.bintray.com/kotlin/kotlin-eap' }
+        maven { url "https://jitpack.io" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
@@ -53,6 +54,7 @@ allprojects {
         google()
         jcenter()
         maven { url 'http://dl.bintray.com/kotlin/kotlin-eap' }
+        maven { url "https://jitpack.io" }
     }
 }
 

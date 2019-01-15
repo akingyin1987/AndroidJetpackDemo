@@ -7,7 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.akingyin.androidjetpackdemo.R
 import com.akingyin.androidjetpackdemo.databinding.MainTestFragmentBinding
+import com.akingyin.androidjetpackdemo.ui.adapter.UserListAdapter
 
 class MainFragment : Fragment() {
 
@@ -25,6 +29,14 @@ class MainFragment : Fragment() {
 
         binding.user = viewModel.user
         binding.clickListener=viewModel
+        binding.recycler.layoutManager = LinearLayoutManager(context)
+        binding.recycler.itemAnimator = DefaultItemAnimator()
+        var adapter =  UserListAdapter(R.layout.item_user)
+        adapter.onItemClickListener = viewModel
+        adapter.onItemLongClickListener = viewModel
+        viewModel.adapter = adapter
+        binding.recycler.adapter =adapter
+        adapter.setNewData(viewModel.users)
 
         return binding.root
 

@@ -4,6 +4,8 @@ import android.app.Application
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.akingyin.androidjetpackdemo.App
+import com.akingyin.androidjetpackdemo.data.AppDatabase
 import com.akingyin.androidjetpackdemo.entity.User
 import com.akingyin.androidjetpackdemo.ui.adapter.UserListAdapter
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -19,11 +21,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) ,V
 
     var  adapter:UserListAdapter? = null
      val mUsers = MutableLiveData<User>()
+
     var users:MutableList<User> = mutableListOf()
      init {
          user.age = 1
          user.createDay = Date()
          user.name="test"
+         mUsers.value = null
+
      }
 
     override fun onClick(p0: View?) {
@@ -36,7 +41,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) ,V
         users.add(0,user2)
         println("adapter= ${adapter?.itemCount}")
         adapter?.notifyDataSetChanged()
-
+        var  appDatabase =  AppDatabase.getInstance(getApplication(), App.INSTANCE?.appExecutors!!)
+        App.INSTANCE!!.appExecutors.mDiskIO!!.execute {
+            appDatabase?.userDao()?.saveUser(user2)
+        }
 
     }
 
@@ -49,5 +57,5 @@ class MainViewModel(application: Application) : AndroidViewModel(application) ,V
        return true
     }
 
-    
+
 }
