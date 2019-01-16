@@ -16,7 +16,37 @@ import java.util.*
 
 class MainViewModel(application: Application) : AndroidViewModel(application) ,View.OnClickListener ,BaseQuickAdapter.OnItemClickListener
  ,BaseQuickAdapter.OnItemLongClickListener{
-    // TODO: Implement the ViewModel
+
+    // 创建LiveData
+     val mutableLiveData = MutableLiveData<MutableList<User>>()
+
+     var postionLiveData = MutableLiveData<Int>()
+
+     var userLiveData = MutableLiveData<User>()
+
+     fun onAddUser(user: User){
+
+        // mutableLiveData.postValue(users)
+
+         var  appDatabase =  AppDatabase.getInstance(getApplication(), App.INSTANCE?.appExecutors!!)
+         App.INSTANCE!!.appExecutors.mDiskIO!!.execute {
+             appDatabase?.userDao()?.saveUser(user)
+             userLiveData.postValue(user)
+         }
+     }
+
+    fun onDelect(user: User?,position: Int){
+
+       // mutableLiveData.postValue(users)
+        var  appDatabase =  AppDatabase.getInstance(getApplication(), App.INSTANCE?.appExecutors!!)
+        App.INSTANCE!!.appExecutors.mDiskIO!!.execute {
+            if (user != null) {
+                appDatabase?.userDao()?.delectUser(user)
+                postionLiveData.postValue(position)
+            }
+        }
+    }
+
     var  user:User = User()
 
     var  adapter:UserListAdapter? = null
@@ -28,23 +58,24 @@ class MainViewModel(application: Application) : AndroidViewModel(application) ,V
          user.createDay = Date()
          user.name="test"
          mUsers.value = null
-
+         var  appDatabase =  AppDatabase.getInstance(getApplication(), App.INSTANCE?.appExecutors!!)
+         App.INSTANCE!!.appExecutors.mDiskIO!!.execute {
+             users = appDatabase?.userDao()?.findUsers()!!
+             mutableLiveData.postValue(users)
+         }
      }
 
     override fun onClick(p0: View?) {
-        println("onClick")
-        var  random:Random = Random()
+
+        var  random = Random()
         user.name = random.nextInt(100).toString()+"name"
         var  user2 = User()
         user2.name = user.name
         user2.createDay = Date()
-        users.add(0,user2)
+
         println("adapter= ${adapter?.itemCount}")
-        adapter?.notifyDataSetChanged()
-        var  appDatabase =  AppDatabase.getInstance(getApplication(), App.INSTANCE?.appExecutors!!)
-        App.INSTANCE!!.appExecutors.mDiskIO!!.execute {
-            appDatabase?.userDao()?.saveUser(user2)
-        }
+        onAddUser(user2)
+
 
     }
 
@@ -53,7 +84,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) ,V
     }
 
     override fun onItemLongClick(adapter2: BaseQuickAdapter<*, *>?, view: View?, position: Int): Boolean {
-        adapter2?.remove(position)
+
+        var  user = adapter?.getItem(position)
+
+        onDelect(user,position)
        return true
     }
 

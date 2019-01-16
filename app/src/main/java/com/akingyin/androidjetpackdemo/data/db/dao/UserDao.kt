@@ -1,10 +1,7 @@
 package com.akingyin.androidjetpackdemo.data.db.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.akingyin.androidjetpackdemo.entity.User
 
 /**
@@ -20,7 +17,13 @@ interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun   saveUser(user: User)
 
-    @Query("Select * from tb_user  ")
+    @Delete
+    fun   delectUser(user: User)
+
+    @Query("Select * from tb_user ")
     fun   findAllUser():LiveData<List<User>>
+
+    @Query("Select * from tb_user ")
+    fun   findUsers():MutableList<User>
 
 }
